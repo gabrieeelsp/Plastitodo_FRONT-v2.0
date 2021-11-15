@@ -27,4 +27,8 @@ export default {
     .fade-enter-active, .fade-leave-active{
       transition: all .05s ease;
     }
+
+.right-text-input input {
+  text-align: right
+}
 </style>

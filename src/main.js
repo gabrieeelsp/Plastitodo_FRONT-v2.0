@@ -5,6 +5,9 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import axios from 'axios'
 
+import './utils/filters'
+import './utils/helpers'
+
 import Toast from "vue-toastification";
 // Import the CSS or use your own!
 import "vue-toastification/dist/index.css";
@@ -35,10 +38,14 @@ Vue.use(Toast, options);
 
 require('@/store/subscriber')
 
+
 //axios.defaults.baseURL = 'http://192.168.0.114:8000/api/v1'
-axios.defaults.baseURL = 'http://localhost:8000/api/v1'
+axios.defaults.baseURL = 'http://api.plastitodo.com.ar/api/v1'
+//axios.defaults.baseURL = 'http://localhost:8000/api/v1'
 
 Vue.config.productionTip = false
+
+
 
 store.dispatch('auth/attempt', localStorage.getItem('token')).then(() => {
 

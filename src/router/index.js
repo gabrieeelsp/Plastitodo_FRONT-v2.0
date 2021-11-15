@@ -5,7 +5,6 @@ import store from '@/store'
 import Home from '../views/public/Home.vue'
 import Admin from '../views/admin/Admin.vue'
 import Dashboard from '../views/admin/Dashboard.vue'
-import Products_List from '../views/admin/products/List.vue'
 
 Vue.use(VueRouter)
 
@@ -36,6 +35,10 @@ const routes = [
         name: 'Dashboard',
         component: Dashboard,
       },
+
+
+
+
       {
         path: 'categories',
         name: 'Categories_Manage',
@@ -51,11 +54,29 @@ const routes = [
         name: 'Categories_Edit',
         component: () => import(/* webpackChunkName: "about" */ '../views/admin/categories/Edit.vue'),
       },
+
+
+
+
       {
         path: 'products',
-        name: 'Products_List',
-        component: Products_List,
+        name: 'Products_Manage',
+        component: () => import(/* webpackChunkName: "about" */ '../views/admin/products/Manage.vue'),
       },
+      {
+        path: 'products/create',
+        name: 'Products_Create',
+        component: () => import(/* webpackChunkName: "about" */ '../views/admin/products/Create.vue'),
+      },
+      {
+        path: 'products/:id/edit',
+        name: 'Products_Edit',
+        component: () => import(/* webpackChunkName: "about" */ '../views/admin/products/Edit.vue'),
+      },
+
+
+
+
       {
         path: 'users',
         component: () => import(/* webpackChunkName: "about" */ '../views/admin/users/List.vue'),
