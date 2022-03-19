@@ -1,0 +1,88 @@
+<template>
+
+	<v-card class="">
+		<v-card-text >
+			<v-row class="">
+				<v-col cols="12" sm="3"  class="pt-2 pb-0 d-flex justify-sm-end">
+					<span class="font-weight-bold black--text">Cliente</span>
+				</v-col>
+				<v-col cols="12" sm="9"  class=" pt-0 pb-0">
+					<v-text-field 
+						v-if="saleActive.client"
+						dense
+						v-model="saleActive.client.name"
+						readonly
+					>						
+					</v-text-field>
+					<SelectClient  
+						v-else
+						v-on:setClientId="setClient" 
+					/>
+				</v-col>
+				<v-col cols="12" sm="3"  class="pt-2 pb-0 d-flex justify-sm-end">
+					<span class="font-weight-bold black--text">Tipo</span>
+				</v-col>
+				<v-col cols="12" sm="9"  class=" pt-0 pb-0">
+					<v-text-field 
+						v-if="saleActive.client"
+						dense
+						v-model="saleActive.client.tipo"
+						readonly
+					>						
+					</v-text-field>
+					<v-text-field 
+						v-else
+						dense
+						readonly
+					>						
+					</v-text-field>
+					<span ></span>
+				</v-col>
+
+			</v-row>
+		</v-card-text>
+	</v-card>
+
+</template>
+
+<script>
+import axios from 'axios'
+import { mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
+import SelectClient from '../../../../components/admin/clients/SelectClient.vue'
+export default {
+
+	components: {
+		SelectClient
+	},
+	computed: {
+      ...mapGetters({
+        saleActive: 'sale/saleActive',
+      })
+    },
+	methods: {
+		...mapActions({
+            set_client_sale_active: 'sale/set_client_sale_active'
+        }),
+		
+		async setClient(id) {
+            await axios.get(`clients/${id}`)
+                .then((result) => {
+                    
+                    this.set_client_sale_active({
+                        'id': result.data.data.id,
+                        'name': result.data.data.attributes.name,
+                        'tipo': result.data.data.attributes.tipo
+                    })
+                }).catch(() => {
+                    console.log("error al seleccionar un cliente")
+                })
+        }
+	}
+	
+}
+</script>
+
+<style>
+
+</style>

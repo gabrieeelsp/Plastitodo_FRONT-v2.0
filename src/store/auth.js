@@ -4,7 +4,7 @@ export default {
     namespaced: true,
     state: {
         token: null,
-        user: null,
+        user: null
     },
     getters: {
         authenticated (state) {
@@ -13,7 +13,11 @@ export default {
 
         user (state) {
             return state.user
+        },
+        is_empleado(state) {
+            return state.user.role != 5
         }
+
     },
     mutations: {
         SET_TOKEN(state, token) {
@@ -22,7 +26,7 @@ export default {
 
         SET_USER(state, data) {
             state.user = data
-        }
+        },
     },
     actions: {
         async signIn ( { dispatch }, credential) {
@@ -47,10 +51,14 @@ export default {
                 let response = await axios.get('me')
 
                 commit('SET_USER', response.data)
+                
             } catch (e) {
                 commit('SET_TOKEN', null)
                 commit('SET_USER', null)
+
             }
+
+            
         },
 
         signOut ({ commit }) {
@@ -59,7 +67,10 @@ export default {
                 commit('SET_TOKEN', null)
                 commit('SET_USER', null)
 
+
             })
-        }
+        },
+
+        
     }
 }

@@ -40,15 +40,23 @@ require('@/store/subscriber')
 
 
 //axios.defaults.baseURL = 'http://192.168.0.114:8000/api/v1'
-axios.defaults.baseURL = 'http://api.plastitodo.com.ar/api/v1'
-//axios.defaults.baseURL = 'http://localhost:8000/api/v1'
+//axios.defaults.baseURL = 'http://api.plastitodo.com.ar/api/v1'
+
+axios.defaults.baseURL = 'http://192.168.0.108:8000/api/v1'
+axios.defaults.baseURL = 'http://localhost:8000/api/v1'
 
 Vue.config.productionTip = false
 
 
 
 store.dispatch('auth/attempt', localStorage.getItem('token')).then(() => {
-
+  
+  store.dispatch('sucursal/set_sucursal', JSON.parse(localStorage.getItem('sucursal')))
+  
+  // si tengo una sucursal seleccionada
+  // tengo que buscar en el backend si tengo una caja para la sucursal seleccionada
+  // y dejarla en el localstorage ( si encuentro )
+  //store.dispatch('caja/set_caja', JSON.parse(localStorage.getItem('caja')))
   new Vue({
     router,
     store,

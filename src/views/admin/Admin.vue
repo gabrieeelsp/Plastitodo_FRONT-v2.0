@@ -7,7 +7,9 @@
         <v-app-bar app>
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
                 <v-spacer></v-spacer>
+                <MenuSucursal />
                 <MenuUser />
+                
             <!-- <v-toolbar-title>Application</v-toolbar-title> -->
         </v-app-bar>
 
@@ -33,10 +35,12 @@
 <script>
 import Menu from '../../components/admin/utils/Menu.vue'
 import MenuUser from '../../components/admin/utils/MenuUser.vue'
+import MenuSucursal from '../../components/admin/utils/MenuSucursal.vue'
 export default {
     components: {
         Menu,
-        MenuUser
+        MenuUser,
+        MenuSucursal
     },
     data: () => ({ 
         drawer: null,

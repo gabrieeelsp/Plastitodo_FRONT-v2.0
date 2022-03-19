@@ -36,51 +36,38 @@ const routes = [
         component: Dashboard,
       },
 
-
-
-
-      {
-        path: 'categories',
-        name: 'Categories_Manage',
-        component: () => import(/* webpackChunkName: "about" */ '../views/admin/categories/Manage.vue'),
-      },
-      {
-        path: 'categories/create',
-        name: 'Categories_Create',
-        component: () => import(/* webpackChunkName: "about" */ '../views/admin/categories/Create.vue'),
-      },
-      {
-        path: 'categories/:id/edit',
-        name: 'Categories_Edit',
-        component: () => import(/* webpackChunkName: "about" */ '../views/admin/categories/Edit.vue'),
-      },
-
-
-
-
-      {
-        path: 'products',
-        name: 'Products_Manage',
-        component: () => import(/* webpackChunkName: "about" */ '../views/admin/products/Manage.vue'),
-      },
-      {
-        path: 'products/create',
-        name: 'Products_Create',
-        component: () => import(/* webpackChunkName: "about" */ '../views/admin/products/Create.vue'),
-      },
-      {
-        path: 'products/:id/edit',
-        name: 'Products_Edit',
-        component: () => import(/* webpackChunkName: "about" */ '../views/admin/products/Edit.vue'),
-      },
-
-
-
-
       {
         path: 'users',
         component: () => import(/* webpackChunkName: "about" */ '../views/admin/users/List.vue'),
-      }
+      },
+      {
+        path: 'cajas/abrir_cerrar',
+        component: () => import(/* webpackChunkName: "about" */ '../views/admin/cajas/open_close.vue'),
+      },
+      {
+        path: 'sales/sale_register',
+        component: () => import(/* webpackChunkName: "about" */ '../views/admin/sales/sale_register.vue'),
+      },
+      {
+        path: 'devolution_register',
+        name: 'devolution_register',
+        component: () => import(/* webpackChunkName: "about" */ '../views/admin/devolutions/devolution_register.vue'),
+      },
+      {
+        path: 'sales/manager',
+        name: 'sale_manager',
+        component: () => import(/* webpackChunkName: "about" */ '../views/admin/sales/sales_manager.vue'),
+      },
+      {
+        path: 'sale',
+        name: 'sale',
+        component: () => import(/* webpackChunkName: "about" */ '../views/admin/sales/sale.vue'),
+      },
+      {
+        path: 'clients/:id',
+        name: 'client_show',
+        component: () => import(/* webpackChunkName: "about" */ '../views/admin/clients/show.vue'),
+      },
     ],
     beforeEnter: (to, from, next) => {
       if (!store.getters['auth/authenticated']) {
@@ -88,6 +75,17 @@ const routes = [
           name: 'Login',
         })
       }
+      if (!store.getters['auth/is_empleado']){
+        return next ({
+          name: 'Home',
+        })
+      }
+      if (!store.getters['sucursal/is_sucursal_selected']){
+        return next ({
+          name: 'Login'
+        })
+      } 
+
       next()
     }
   }

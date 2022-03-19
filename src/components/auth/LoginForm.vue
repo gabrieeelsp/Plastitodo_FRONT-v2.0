@@ -43,6 +43,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
   export default {
     data: () => ({
       valid: true,
@@ -63,12 +64,18 @@ import { mapActions } from 'vuex'
 
         loading: false,
     }),
+    computed: {
+      ...mapGetters({
+        is_empleado: 'auth/is_empleado'
+      })
+    },
 
     methods: {
       ...mapActions({
           signIn: 'auth/signIn',
           set_message: 'set_message'
       }),
+
       validate () {
         this.$refs.form.validate()
       },
@@ -98,14 +105,18 @@ import { mapActions } from 'vuex'
         this.validate()
         if( this.valid ){
           this.loading = true
-          this.signIn({ 'email': this.email, 'password': this.password }).then(() => {
+          this.signIn({ 'email': this.email, 'password': this.password })
+            .then(() => {
               this.loading = false
               this.$toast.success("Wellcome!", {
                   timeout: 3000
               });
-              this.$router.replace({
-                  name: 'Dashboard'
-              })
+              if ( !this.is_empleado ){
+                this.$router.replace({
+                  name: 'Home'
+                })
+              }
+              
           }).catch((error) => {
             this.loading = false
             if (error.response) {

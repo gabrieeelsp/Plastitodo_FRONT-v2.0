@@ -1,0 +1,55 @@
+<template>
+  <div>
+      <v-row>
+            <v-col cols="12" sm="9">
+                <v-row>
+                    <v-col cols="12">
+                        <CreditnoteForm
+                            :creditnote="creditnote" 
+                        />
+                    </v-col>
+                </v-row>
+                
+                
+            </v-col>
+            <v-col cols="12" sm="3">
+                <v-row>
+                    <v-col>
+                        <SaleClient />
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <CreditnoteTotal 
+                            :creditnote="creditnote"
+                        />
+                    </v-col>
+                </v-row>
+                
+            </v-col>
+        </v-row>
+  </div>
+</template>
+
+<script>
+
+import SaleClient from '@/components/admin/sales_manager/sale/sale_detail/SaleClient'
+import CreditnoteForm from '@/components/admin/sales_manager/sale/creditnote_detail/CreditnoteForm'
+import CreditnoteTotal from '@/components/admin/sales_manager/sale/creditnote_detail/CreditnoteTotal'
+
+export default {
+    props: {
+        creditnote: Object,
+    },
+    components: {
+        SaleClient,
+        CreditnoteForm,
+        CreditnoteTotal,
+    }
+
+}
+</script>
+
+<style>
+
+</style>
