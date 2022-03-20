@@ -20,11 +20,12 @@
                 </v-col>
                 <v-col cols="2" sm="2" class="pt-1 pb-1 d-flex align-center">
                     <v-btn
+                        v-if="Object.prototype.hasOwnProperty.call(payment.attributes, 'is_confirmed')"
                         icon
-
+                        @click="showEditPaymentModal ( payment )"
                         x-small
                         >
-                        <v-icon>mdi-eye</v-icon>
+                        <v-icon>mdi-edit</v-icon>
                     </v-btn>
                 </v-col>
             </v-row>
@@ -35,6 +36,13 @@
             @close="newPaymentModalVisible = false"
             @addPayment="addPayment"
             />
+        <EditPaymentModal
+            :saldoSale="Number(saldoTotalSale)"
+            :payment="paymentShowed"
+            :dialogVisible="editPaymentModalVisible"
+            @close="editPaymentModalVisible = false"
+            @updatePayment="updatePayment"
+            />
     </v-card>
 </template>
 
@@ -43,16 +51,21 @@ import { mapGetters } from 'vuex'
 import { mapActions } from 'vuex'
 
 import NewPaymentModal from '@/components/admin/sales_manager/sale/sale_detail/NewPaymentModal'
+import EditPaymentModal from '@/components/admin/sales_manager/sale/sale_detail/EditPaymentModal'
 export default {
 
     data () {
 		return {
-			newPaymentModalVisible: false
+			newPaymentModalVisible: false,
+            editPaymentModalVisible: false,
+
+            paymentShowed: null
 		}
     },
 
     components: {
-        NewPaymentModal
+        NewPaymentModal,
+        EditPaymentModal
     },
 
     computed: {
@@ -64,13 +77,25 @@ export default {
 
     methods: {
         ...mapActions({
-            add_payment: 'sales_manager/add_payment'
+            save_payment: 'sales_manager/save_payment',
+            add_payment: 'sales_manager/add_payment',
+            update_payment: 'sales_manager/update_payment'
         }),
 
         addPayment(payment) {
-			this.newPaymentModalVisible = false,
-			this.add_payment(payment)			
-		}
+            this.add_payment(payment)
+            this.newPaymentModalVisible = false
+			
+		},
+        updatePayment( payment ) {
+            this.update_payment(payment)
+            this.editPaymentModalVisible = false
+        },
+
+        showEditPaymentModal ( payment ) {
+            this.paymentShowed = payment
+            this.editPaymentModalVisible = true
+        }
     }
 
     

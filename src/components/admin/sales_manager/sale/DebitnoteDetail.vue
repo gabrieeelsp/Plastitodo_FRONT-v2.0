@@ -20,6 +20,13 @@
                 </v-row>
                 <v-row>
                     <v-col>
+                        <DebitnoteUser
+                            :debitnote="debitnote"
+                        />
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
                         <DebitnoteTotal 
                             :debitnote="debitnote"
                         />
@@ -34,6 +41,7 @@
 <script>
 
 import SaleClient from '@/components/admin/sales_manager/sale/sale_detail/SaleClient'
+import DebitnoteUser from '@/components/admin/sales_manager/sale/debitnote_detail/DebitnoteUser'
 import DebitnoteForm from '@/components/admin/sales_manager/sale/debitnote_detail/DebitnoteForm'
 import DebitnoteTotal from '@/components/admin/sales_manager/sale/debitnote_detail/DebitnoteTotal'
 
@@ -43,8 +51,9 @@ export default {
     },
     components: {
         SaleClient,
+        DebitnoteUser,
         DebitnoteForm,
-        DebitnoteTotal,
+        DebitnoteTotal
     }
 
 }

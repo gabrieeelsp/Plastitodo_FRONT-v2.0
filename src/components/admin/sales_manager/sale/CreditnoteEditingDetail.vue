@@ -5,6 +5,7 @@
                 <v-row>
                     <v-col cols="12">
                         <CreditnoteEditingForm 
+                            :is_saving="is_saving"
                             @guardar_creditnote="guardar_creditnote"
                             @cancelar_creditnote="cancelar_creditnote"
                         />
@@ -50,7 +51,7 @@ export default {
 
     data() {
         return {
-            
+            is_saving: false,
         }
     },
 
@@ -60,11 +61,16 @@ export default {
         }),
 
         async guardar_creditnote ( ) {
-
+            this.is_saving = true
             await this.save_creditnote()
                 .then((resp) => {
                     this.$emit('finalizar_creditnote', resp.data.data)
+                    this.$toast.success('La nota de crédito se ha generado correctamente', { timeout: 3000 });
                 })
+                .catch(() => {
+                    this.$toast.error('Se ha producido un error.', { timeout: 3000 });
+                })
+            this.is_saving = false
 
         },
 

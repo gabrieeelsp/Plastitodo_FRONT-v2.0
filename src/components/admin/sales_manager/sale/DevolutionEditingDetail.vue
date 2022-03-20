@@ -74,6 +74,10 @@ export default {
             await this.save_devolution()
                 .then((resp) => {
                     this.$emit('finalizar_devolution', resp.data.data)
+                    this.$toast.success('La devolución se ha generado correctamente', { timeout: 3000 });
+                })
+                .catch(() => {
+                    this.$toast.error('Se ha producido un error.', { timeout: 3000 });
                 })
             this.is_saving = false
         },

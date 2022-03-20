@@ -313,7 +313,7 @@ export default {
             this.is_show_creditnote_editing = false 
             this.is_show_debitnote_editing = false 
             this.is_show_creditnote = false
-            this.set_creditnote_editing ( null )
+            this.set_debitnote_editing ( null )
             this.is_show_debitnote = true
                        
         },

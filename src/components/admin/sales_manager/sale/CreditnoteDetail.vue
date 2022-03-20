@@ -20,6 +20,13 @@
                 </v-row>
                 <v-row>
                     <v-col>
+                        <CreditnoteUser
+                            :creditnote="creditnote"
+                        />
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
                         <CreditnoteTotal 
                             :creditnote="creditnote"
                         />
@@ -34,6 +41,7 @@
 <script>
 
 import SaleClient from '@/components/admin/sales_manager/sale/sale_detail/SaleClient'
+import CreditnoteUser from '@/components/admin/sales_manager/sale/creditnote_detail/CreditnoteUser'
 import CreditnoteForm from '@/components/admin/sales_manager/sale/creditnote_detail/CreditnoteForm'
 import CreditnoteTotal from '@/components/admin/sales_manager/sale/creditnote_detail/CreditnoteTotal'
 
@@ -43,6 +51,7 @@ export default {
     },
     components: {
         SaleClient,
+        CreditnoteUser,
         CreditnoteForm,
         CreditnoteTotal,
     }

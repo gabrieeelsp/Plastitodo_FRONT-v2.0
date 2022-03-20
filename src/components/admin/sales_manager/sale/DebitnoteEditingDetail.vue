@@ -5,6 +5,7 @@
                 <v-row>
                     <v-col cols="12">
                         <DebitnoteEditingForm 
+                            :is_saving="is_saving"
                             @guardar_debitnote="guardar_debitnote"
                             @cancelar_debitnote="cancelar_debitnote"
                         />
@@ -50,7 +51,7 @@ export default {
 
     data() {
         return {
-            
+            is_saving: false
         }
     },
 
@@ -60,11 +61,16 @@ export default {
         }),
 
         async guardar_debitnote ( ) {
-
+            this.is_saving = true
             await this.save_debitnote()
                 .then((resp) => {
                     this.$emit('finalizar_debitnote', resp.data.data)
+                    this.$toast.success('La nota de débito se ha generado correctamente', { timeout: 3000 });
                 })
+                .catch(() => {
+                    this.$toast.error('Se ha producido un error.', { timeout: 3000 });
+                })
+            this.is_saving = false
 
         },
 

@@ -55,9 +55,12 @@
 import { mapGetters } from 'vuex'
 export default {
 
+    props: {
+        is_saving: Boolean
+    },
+
     data () {
         return {
-            is_saving: false,
             valid: true,
             valorRules: [
                 v => ( v && v >= 0 ) || "Costo should be above 0",

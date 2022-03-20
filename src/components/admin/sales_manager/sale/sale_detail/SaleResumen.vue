@@ -36,7 +36,7 @@
                         <span class="subtitle-1  blue--text darken-4 ml-1">{{ globalHelperFixeDecimalMoney(debitnote.attributes.valor) | money_string }}</span>
                     </div>
                 </div >
-                <div class=" d-flex justify-space-between" >
+                <div v-if="totalRefondsSale != 0" class=" d-flex justify-space-between" >
                     <span class="subtitle-1">Reintegro:</span>
                     <span class="subtitle-1  blue--text darken-4 ml-1">{{ globalHelperFixeDecimalMoney(totalRefondsSale ) | money_string }}</span>
                 </div>
@@ -46,6 +46,7 @@
                 </div>
             </v-col>
         </v-row>
+        {{ sale.relationships.payments }}
     </div>
 </template>
 

@@ -146,8 +146,8 @@ export default {
         },
         onload() {
             this.items = []
-            this.getItems()
             this.q = ''
+            this.getItems()
             setTimeout(() => this.$refs.search.$refs.input.focus(), 100); 
 
         },

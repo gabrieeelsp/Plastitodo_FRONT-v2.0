@@ -148,6 +148,13 @@ export default {
         ADD_PAYMENT ( state, payload ) {
             state.sale.relationships.payments.push(payload)
         },
+        UPDATE_PAYMENT ( state, payload ) {
+            for ( let payment of state.sale.relationships.payments ) {
+                if( payment.id == payload.id ) {
+                    payment.attributes.valor = payload.valor
+                }
+            }  
+        },
         ADD_REFOND ( state, payload ) {
             state.sale.relationships.refonds.push(payload)
         },
@@ -207,6 +214,8 @@ export default {
         },
         set_sale ( { commit }, payload) {
             commit('SET_DEVOLUTION_EDITING', null)
+            commit('SET_CREDITNOTE_EDITING', null)
+            commit('SET_DEBITNOTE_EDITING', null)
             commit('SET_SALE', payload)
         },
 
@@ -218,7 +227,7 @@ export default {
             commit('SET_LOADING', payload)
         },
 
-        async send_payment ( {  state, rootState }, payload ) {
+        async save_payment ( {  state, rootState }, payload ) {
             return axios.post('/payments', {
                 'data': {
                     'type': 'payments',
@@ -254,9 +263,17 @@ export default {
                 attributes: {
                     valor: payload.valor,
                     name: payload.name,
-                    is_editing_valor: payload.is_editing_valor
+                    is_confirmed: payload.is_confirmed
+                },
+                relationships: {
+                    paymentmethod: {
+                        id: payload.paymentmethod_id
+                    }
                 }
             })
+        },
+        update_payment ( {  commit }, payload ) {
+            commit ( 'UPDATE_PAYMENT', payload )
         },
         add_refond ( { commit }, payload) {
             commit('ADD_REFOND', {
