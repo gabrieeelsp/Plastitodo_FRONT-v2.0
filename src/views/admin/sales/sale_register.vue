@@ -45,14 +45,20 @@
                             </v-col>
                         </v-row>
                         <v-row>
-                            <v-col>
+                            <v-col class="d-flex justify-end">
                                 <v-btn
                                     @click="delete_sale(saleActive.id)"
+                                    color="warning"
+                                    text
                                 >
                                     Cancelar
                                 </v-btn>
                                 <v-btn
-                                    @click="save_sale"
+                                    :disabled="cantItemsSaleActive == 0"
+                                    
+                                    @clik="save_sale"
+                                    color="success"
+                                    text
                                 >
                                     Guardar
                                 </v-btn>
@@ -69,7 +75,9 @@
                     <v-col cols="12">
                         <TotalSale />
                     </v-col>
-                    <v-col cols="12">
+                    <v-col cols="12"
+                        v-if="caja"
+                    >
                         <MenuPaymentSaleActive 
                             v-if="caja"
                         />
@@ -82,7 +90,7 @@
             :dialogVisible="cargandoModalVisible"
             :is_registrandoVenta="is_registrandoVenta"
 
-            @close="cargandoModalVisible = false"
+            @close="cerrarShowTareasModal"
             />
         {{ saleActive}}
     </div>
@@ -130,7 +138,8 @@ export default {
         ...mapGetters({
             sales: 'sale/sales',
             saleActive: 'sale/saleActive',
-            caja: 'caja/caja'
+            caja: 'caja/caja',
+            cantItemsSaleActive: 'sale/cantItemsSaleActive'
             
         })
     },
@@ -161,11 +170,28 @@ export default {
         async save_sale() {
             this.cargandoModalVisible = true
             this.is_registrandoVenta = true
-            await this.save_saleActive().then(() => {
-                this.is_registrandoVenta = false
-            })
-
-
+            await this.save_saleActive()
+                .then(() => {
+                    this.is_registrandoVenta = false
+                    if ( !this.cargandoModalVisible ) {
+                        this.$toast.success('La Venta se ha generado correctamente', { timeout: 3000 });
+                        if ( this.cantItemsSaleActive != 0 ) {
+                            this.delete_sale(this.saleActive.id)
+                        }
+                    }
+                })
+                .catch(() => {
+                    if ( !this.cargandoModalVisible ) {
+                        this.$toast.error('Se ha producido un error.', { timeout: 3000 });
+                    }
+                })
+        },
+        cerrarShowTareasModal() {
+            this.cargandoModalVisible = false
+            if ( this.cantItemsSaleActive != 0 ) {
+                this.delete_sale(this.saleActive.id)
+            }
+            
         }
         
         

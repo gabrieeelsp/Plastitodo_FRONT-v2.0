@@ -34,7 +34,7 @@
                         ></v-select>
                     </v-col>
                     <v-col cols="12" sm="6"  class="pt-2 pb-0 d-flex justify-sm-end">
-                        <span class="font-weight-bold black--text">Valor ( max: {{ globalHelperFixeDecimalMoney(saldoTotalSale * (-1)) | money_string }} )</span>
+                        <span class="font-weight-bold black--text">Valor</span>
                     </v-col>
                     <v-col cols="12" sm="6"  class=" pt-0 pb-0"> 
                         <v-text-field
@@ -95,19 +95,18 @@ export default {
 
         valorRules: [
             v => ( v && v > 0 ) || "Valor should be above 0",
-            v => ( v && v <= this.saldoTotalSale * (-1) ) || "Valor should be above Total Venta",
         ],
         errorValorMessages: '',
       }
     },
     props: {
-        dialogVisible: Boolean
+        dialogVisible: Boolean,
+        saldoSaleActive: Number
     
     },
     computed: {
         ...mapGetters({
-            paymentMethods: 'paymentMethod/paymentMethods',
-            saldoTotalSale: 'sales_manager/saldoTotalSale',
+            paymentMethods: 'paymentMethod/paymentMethods'
 			
 		}),
         intDialogVisible: {
@@ -141,8 +140,8 @@ export default {
                 this.$emit('addRefond', {
                     paymentmethod_id: this.select.id,
                     name: name,
-                    valor: this.globalHelperFixeDecimalMoney(this.valor),
-                    is_confirmed: false
+                    valor: Number(this.valor),
+                    is_editing_valor: false
                 })
             }
             
@@ -152,7 +151,7 @@ export default {
         },
         onload() {
             
-            this.valor = this.saldoTotalSale * (-1)
+            this.valor = this.saldoSaleActive
             setTimeout(() => this.$refs.input_valor.$refs.input.focus(), 100);
         }
 

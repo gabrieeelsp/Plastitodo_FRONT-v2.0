@@ -40,7 +40,8 @@
 </template>
 
 <script>
-import { mapActions } from'vuex'
+import { mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 import DevolutionEditingItems from '@/components/admin/sales_manager/sale/devolution_editing_detail/DevolutionEditingItems'
 import SaleClient from '@/components/admin/sales_manager/sale/sale_detail/SaleClient'
@@ -63,6 +64,12 @@ export default {
             is_saving: false
         }
     },
+    computed: {
+        ...mapGetters({
+            totalDevolution: 'sales_manager/totalDevolution',
+            totalDisponibleCredito: 'sales_manager/totalDisponibleCredito'
+        })
+    },
 
     methods: {
         ...mapActions({
@@ -70,16 +77,21 @@ export default {
         }),
 
         async guardar ( ) {
-            this.is_saving = true
-            await this.save_devolution()
-                .then((resp) => {
-                    this.$emit('finalizar_devolution', resp.data.data)
-                    this.$toast.success('La devolución se ha generado correctamente', { timeout: 3000 });
-                })
-                .catch(() => {
-                    this.$toast.error('Se ha producido un error.', { timeout: 3000 });
-                })
-            this.is_saving = false
+            if ( this.totalDevolution <= this.totalDisponibleCredito ) {
+                this.is_saving = true
+                await this.save_devolution()
+                    .then((resp) => {
+                        this.$emit('finalizar_devolution', resp.data.data)
+                        this.$toast.success('La devolución se ha generado correctamente', { timeout: 3000 });
+                    })
+                    .catch(() => {
+                        this.$toast.error('Se ha producido un error.', { timeout: 3000 });
+                    })
+                this.is_saving = false
+            } else {
+                this.$toast.error('Se ha producido un error.', { timeout: 3000 });
+            }
+            
         },
 
         cancelar ( ) {

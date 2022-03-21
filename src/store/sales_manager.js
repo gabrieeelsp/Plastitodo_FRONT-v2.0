@@ -95,6 +95,23 @@ export default {
             return Number(Number(total).toFixed(10))
         },
 
+        totalDisponibleCredito ( state ) {
+            let total = state.sale.attributes.total
+            for ( let devolution of state.sale.relationships.devolutions ) {
+                    total = total - Number(devolution.attributes.total)
+            }
+
+            for ( let creditnote of state.sale.relationships.creditnotes ) {
+                total = total - Number(creditnote.attributes.valor)
+            }
+
+            for ( let debitnote of state.sale.relationships.debitnotes ) {
+                total = Number(total) + Number(debitnote.attributes.valor)
+            }
+            
+            return Number(Number(total).toFixed(10))
+        },
+
         cantItemsDevolution (state) {
             return state.devolution_editing.devitems.filter((e) => e.is_devolution_item).length
         },
@@ -155,8 +172,23 @@ export default {
                 }
             }  
         },
+        REMOVE_PAYMENT ( state, payload ) {
+            state.sale.relationships.payments = state.sale.relationships.payments.filter((item) => item.id != payload.id)
+        },
+
         ADD_REFOND ( state, payload ) {
             state.sale.relationships.refonds.push(payload)
+        },
+
+        UPDATE_REFOND ( state, payload ) {
+            for ( let refond of state.sale.relationships.refonds ) {
+                if( refond.id == payload.id ) {
+                    refond.attributes.valor = payload.valor
+                }
+            }  
+        },
+        REMOVE_REFOND ( state, payload ) {
+            state.sale.relationships.refonds = state.sale.relationships.refonds.filter((item) => item.id != payload.id)
         },
         ADD_DEVOLUTION ( state, payload ) {
             state.sale.relationships.devolutions.push(payload)
@@ -227,18 +259,18 @@ export default {
             commit('SET_LOADING', payload)
         },
 
-        async save_payment ( {  state, rootState }, payload ) {
+        async save_payment ( {  getters, rootState }, payload ) {
             return axios.post('/payments', {
                 'data': {
                     'type': 'payments',
                     'attributes': {
-                        'valor': payload.valor,
+                        'valor': payload.attributes.valor,
                         
                     },
                     'relationships': {
                         'paymentmethod': {
                             'data': {
-                                'id': payload.paymentmethod_id
+                                'id': payload.relationships.paymentmethod.id
                             }
                         },
                         'caja': {
@@ -248,7 +280,7 @@ export default {
                         },
                         'sale': {
                             'data': {
-                                'id': state.sale.id
+                                'id': getters.sale.id
                             }
                         },
                     }
@@ -275,6 +307,9 @@ export default {
         update_payment ( {  commit }, payload ) {
             commit ( 'UPDATE_PAYMENT', payload )
         },
+        remove_payment ( { commit }, payload ) {
+            commit ( 'REMOVE_PAYMENT', payload )
+        },
         add_refond ( { commit }, payload) {
             commit('ADD_REFOND', {
                 id: Math.floor(Math.random() * 100000) +1,
@@ -282,11 +317,49 @@ export default {
                 attributes: {
                     valor: payload.valor,
                     name: payload.name,
-                    is_editing_valor: payload.is_editing_valor
+                    is_confirmed: payload.is_confirmed
+                },
+                relationships: {
+                    paymentmethod: {
+                        id: payload.paymentmethod_id
+                    }
                 }
             })
         },
-
+        async save_refond ( {  getters, rootState }, payload ) {
+            return axios.post('/refonds', {
+                'data': {
+                    'type': 'refonds',
+                    'attributes': {
+                        'valor': payload.attributes.valor,
+                        
+                    },
+                    'relationships': {
+                        'paymentmethod': {
+                            'data': {
+                                'id': payload.relationships.paymentmethod.id
+                            }
+                        },
+                        'caja': {
+                            'data': {
+                                'id': rootState.caja.caja.id
+                            }
+                        },
+                        'sale': {
+                            'data': {
+                                'id': getters.sale.id
+                            }
+                        },
+                    }
+                }
+            })
+        },
+        update_refond ( {  commit }, payload ) {
+            commit ( 'UPDATE_REFOND', payload )
+        },
+        remove_refond ( { commit }, payload ) {
+            commit ( 'REMOVE_REFOND', payload )
+        },
 
         async new_devolution( { commit, state } ) {
             await axios.get(`/sales/${state.sale.id}/make_devolution`)

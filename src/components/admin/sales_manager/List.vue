@@ -87,7 +87,7 @@
                         <td>{{ sale.relationships.user.attributes.name }}</td>
                         <td>{{ sale.relationships.sucursal.attributes.name }}</td>
                         <td class="text-right">{{ sale.attributes.created_at }}</td>
-                        <td>{{ globalHelperFixeDecimalMoney(sale.attributes.total) | money_string }}</td>
+                        <td class="text-right">{{ globalHelperFixeDecimalMoney(sale.attributes.total) | money_string }}</td>
                         <v-btn
                             icon
                             @click="showSalePage(sale.id)"

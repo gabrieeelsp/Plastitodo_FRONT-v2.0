@@ -130,9 +130,11 @@
             <td>
                 <v-btn
                     small
+                    icon
+                    color="red"
                     @click="remove_item(item.saleProductId)"
                 >
-                    Ed
+                    <v-icon>delete</v-icon>
                 </v-btn>
             </td>
             </tr>

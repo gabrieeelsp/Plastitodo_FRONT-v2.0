@@ -17,6 +17,12 @@
                     
                 ></v-text-field>
             </v-col>
+            <v-col cols="12" sm="3"  class="pt-2 pb-0 d-flex justify-sm-start">
+                <span
+                    @click="creditnote_editing.valor = globalHelperFixeDecimalMoney(totalDisponibleCredito)"
+                    style="cursor: pointer"
+                >( max: {{ totalDisponibleCredito | money_string }})</span>
+            </v-col>
         </v-row>
 
         <v-row>
@@ -64,6 +70,7 @@ export default {
             valid: true,
             valorRules: [
                 v => ( v && v >= 0 ) || "Costo should be above 0",
+                v => ( v && v <= this.totalDisponibleCredito ) || "Supera el máximo permitido",
             ],
             errorValorMessages: '',
 
@@ -76,7 +83,8 @@ export default {
     },
     computed: {
         ...mapGetters({
-            creditnote_editing: 'sales_manager/creditnote_editing'
+            creditnote_editing: 'sales_manager/creditnote_editing',
+            totalDisponibleCredito: 'sales_manager/totalDisponibleCredito'
         })
     },
 

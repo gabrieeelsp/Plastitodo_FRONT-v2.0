@@ -21,7 +21,7 @@
                     <v-col cols="12" sm="6"  class=" pt-0 pb-0"> 
                         <v-select
                             v-model="select"
-
+                            readonly
                             :items="paymentMethods"
                             item-text="attributes.name"
                             item-value="id"
@@ -34,7 +34,9 @@
                         ></v-select>
                     </v-col>
                     <v-col cols="12" sm="6"  class="pt-2 pb-0 d-flex justify-sm-end">
-                        <span class="font-weight-bold black--text">Valor ( max: {{ globalHelperFixeDecimalMoney(saldoTotalSale * (-1)) | money_string }} )</span>
+                        <span 
+                            @click="valor = max_value"
+                            class="font-weight-bold black--text">Valor ( max: {{ globalHelperFixeDecimalMoney(max_value) | money_string }} )</span>
                     </v-col>
                     <v-col cols="12" sm="6"  class=" pt-0 pb-0"> 
                         <v-text-field
@@ -88,20 +90,22 @@ export default {
           
     },
     data () {
-      return {
-        select: { id: 1,  },
-        valor: '',
-        valid: true,
+        return {
+            max_value: 0,    
+            select: { id: 1,  },
+            valor: '',
+            valid: true,
 
-        valorRules: [
-            v => ( v && v > 0 ) || "Valor should be above 0",
-            v => ( v && v <= this.saldoTotalSale * (-1) ) || "Valor should be above Total Venta",
-        ],
-        errorValorMessages: '',
-      }
+            valorRules: [
+                v => ( v && v > 0 ) || "Valor should be above 0",
+                v => ( v && v <= this.max_value ) || "Valor should be above Total Venta",
+            ],
+            errorValorMessages: '',
+        }
     },
     props: {
-        dialogVisible: Boolean
+        dialogVisible: Boolean,
+        refond: Object
     
     },
     computed: {
@@ -131,18 +135,10 @@ export default {
         accept() {
             this.validate()
             if( this.valid ){
-                let name = ''
-                for( let item of this.paymentMethods) {
-                    if( item.id == this.select.id){
-                        name = item.attributes.name
-                        break
-                    }
-                }
-                this.$emit('addRefond', {
-                    paymentmethod_id: this.select.id,
-                    name: name,
+                this.$emit('updateRefond', {
+                    id: this.refond.id,
+                    paymentmethod_id: this.refond.relationships.paymentmethod.id,
                     valor: this.globalHelperFixeDecimalMoney(this.valor),
-                    is_confirmed: false
                 })
             }
             
@@ -151,8 +147,9 @@ export default {
             this.$refs.form.validate()
         },
         onload() {
-            
-            this.valor = this.saldoTotalSale * (-1)
+            this.max_value = Number(this.saldoTotalSale) * (-1) + Number(this.refond.attributes.valor)
+            this.valor = this.refond.attributes.valor
+            this.select = this.refond.relationships.paymentmethod.id
             setTimeout(() => this.$refs.input_valor.$refs.input.focus(), 100);
         }
 
