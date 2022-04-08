@@ -9,21 +9,24 @@ import devolution from './devolution'
 import sale_showed from './sale_showed'
 import client from './client'
 import sales_manager from './sales_manager'
+import modelofact from './modelofact'
+import ivacondition from './ivacondition'
+import app from './app'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-
+      
     },
     getters: {
-
+      
     },
     mutations: {
-
+      
     },
     actions: {
-
+      
     },
     modules: {
         auth,
@@ -34,6 +37,9 @@ export default new Vuex.Store({
         devolution,
         sale_showed,
         client,
-        sales_manager
+        sales_manager,
+        modelofact,
+        ivacondition,
+        app
     }
 })

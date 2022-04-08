@@ -233,7 +233,7 @@ export default {
 
             await axios.get(`/sales/${sale.id}`)
             .then((resp) => {
-                //console.log(resp)
+
                 this.saleShowed = resp.data.data
                 this.showSaledialogVisible = true
                 

@@ -61,6 +61,9 @@ export default {
         SET_SALE_ACTIVE( state, sale ) {
             state.saleActive = sale
         },
+        SET_MODELOFACT( state, payload ) {
+            state.saleActive.modelofact_id = payload
+        },
         SET_CLIENT_SALE_ACTIVE(state, client) {
             state.saleActive.client = client
         },
@@ -104,7 +107,8 @@ export default {
                 id: Math.floor(Math.random() * 100000) +1,
                 items: [],
                 payments: [],
-                client: null
+                client: null,
+                modelofact_id: 0
             }
             commit('ADD_SALE', sale)
             commit('SET_SALE_ACTIVE', sale)
@@ -116,6 +120,16 @@ export default {
 
         set_client_sale_active( { commit }, client) {
             commit('SET_CLIENT_SALE_ACTIVE', client)
+            if ( client.modelofact ) {
+                if ( client.fact_default ) {
+                    commit ( 'SET_MODELOFACT', client.modelofact.id )
+                }else{
+                    commit ( 'SET_MODELOFACT', 0 )
+                }
+                
+            } else {
+                commit ( 'SET_MODELOFACT', 0 )
+            }
         },
         add_item( { commit }, item) {
             commit('ADD_ITEM', item)

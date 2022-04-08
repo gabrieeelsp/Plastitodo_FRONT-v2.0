@@ -60,11 +60,11 @@ import { mapGetters } from 'vuex'
                         'paginate': 0
                     }
                 }).then((result) => {
-
+                    //console.log(result.data.data)
                     this.items = []
                     for ( let item of result.data.data ) {
                         this.items.push({
-                            name: item.attributes.name,
+                            name: item.attributes.surname + ' ' + item.attributes.name,
                             id: item.id
                             })
                     }

@@ -31,6 +31,9 @@ export default {
             if ( data != null ) {
                 dispatch('caja/buscar_caja', null, {root:true})
                 dispatch('paymentMethod/buscar_paymentMethods', null, {root:true})
+                dispatch('modelofact/buscar_modelofacts', null, {root:true})
+                dispatch('ivacondition/buscar_ivaconditions', null, {root:true})
+                dispatch('app/set_is_loading', false, {root:true})
             }
         }
         

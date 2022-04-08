@@ -215,6 +215,10 @@ export default {
             state.sale.relationships.debitnotes.push(payload)
         },
 
+        SET_COMPROBANTE ( state, payload ) {
+            state.sale.relationships.comprobante = payload
+        },
+
     },
     actions: {
         set_sales( { commit }, payload) {
@@ -521,6 +525,19 @@ export default {
         add_debitnote ( { commit }, payload ) {            
             commit('ADD_DEBITNOTE', payload)
         },
+
+        async generate_comprobante ( { getters }, modelofact_id ) {
+
+            if ( modelofact_id == 1 ) {
+                return axios.post('/sales/make_comprobante_factura', {
+                    'sale_id': getters.sale.id
+                })
+            }
+        },
+
+        set_comprobante ( { commit }, payload ) {
+            commit('SET_COMPROBANTE', payload)
+        }
         
     }
 }

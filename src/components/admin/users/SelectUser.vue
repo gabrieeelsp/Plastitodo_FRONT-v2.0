@@ -61,7 +61,7 @@ import axios from 'axios'
                     this.items = []
                     for ( let item of result.data.data ) {
                         this.items.push({
-                            name: item.attributes.name,
+                            name: item.attributes.surname + ' ' + item.attributes.name,
                             id: item.id
                             })
                     }

@@ -56,9 +56,9 @@ export default {
 		SelectClient
 	},
 	computed: {
-      ...mapGetters({
-        saleActive: 'sale/saleActive',
-      })
+		...mapGetters({
+			saleActive: 'sale/saleActive'
+		})
     },
 	methods: {
 		...mapActions({
@@ -68,12 +68,33 @@ export default {
 		async setClient(id) {
             await axios.get(`clients/${id}`)
                 .then((result) => {
-                    
-                    this.set_client_sale_active({
+					let client = {
                         'id': result.data.data.id,
                         'name': result.data.data.attributes.name,
-                        'tipo': result.data.data.attributes.tipo
-                    })
+                        'tipo': result.data.data.attributes.tipo,
+						'fact_default': result.data.data.attributes.fact_default,
+						
+                    }
+
+					if ( result.data.data.relationships.ivacondition ) {
+						client['ivacondition'] = {
+							id: result.data.data.relationships.ivacondition.id,
+							name: result.data.data.relationships.ivacondition.attributes.name
+						}
+					}else {
+						client['ivacondition'] = null
+					}
+
+					if ( result.data.data.relationships.modelofact ) {
+						client['modelofact'] = {
+							id: result.data.data.relationships.modelofact.id,
+							name: result.data.data.relationships.modelofact.attributes.name
+						}
+					}else {
+						client['modelofact'] = null
+					}
+                    
+                    this.set_client_sale_active( client)
                 }).catch(() => {
                     console.log("error al seleccionar un cliente")
                 })

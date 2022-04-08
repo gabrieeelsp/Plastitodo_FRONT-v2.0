@@ -24,6 +24,11 @@
                 </v-row>
                 <v-row>
                     <v-col>
+                        <SaleComprobante />
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
                         <SaleUser />
                     </v-col>
                 </v-row>
@@ -52,6 +57,7 @@ import SaleRefonds from '@/components/admin/sales_manager/sale/sale_detail/SaleR
 import SaleResumen from '@/components/admin/sales_manager/sale/sale_detail/SaleResumen'
 import SaleUser from '@/components/admin/sales_manager/sale/sale_detail/SaleUser'
 import SaleClient from '@/components/admin/sales_manager/sale/sale_detail/SaleClient'
+import SaleComprobante from '@/components/admin/sales_manager/sale/sale_detail/SaleComprobante'
 export default {
 
     components: {
@@ -60,7 +66,8 @@ export default {
         SaleRefonds,
         SaleResumen,
         SaleUser,
-        SaleClient
+        SaleClient,
+        SaleComprobante
     },
 
     computed: {

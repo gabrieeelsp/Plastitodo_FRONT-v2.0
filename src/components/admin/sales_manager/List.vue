@@ -62,9 +62,14 @@
                             class="pl-1 text-start font-weight-bold text-subtitle-1 grey--text text--darken-3">
                             Fecha
                         </th>
+                        <th 
+                            style="width: 180px;"
+                            class="pl-1 text-start font-weight-bold text-subtitle-1 grey--text text--darken-3">
+                            Comprobante
+                        </th>
                         
                         <th 
-                            style="width: 100px;"
+                            style="width: 80px;"
                             class="pl-1 text-start font-weight-bold text-subtitle-1 grey--text text--darken-3">
                             Total
                         </th>
@@ -87,6 +92,9 @@
                         <td>{{ sale.relationships.user.attributes.name }}</td>
                         <td>{{ sale.relationships.sucursal.attributes.name }}</td>
                         <td class="text-right">{{ sale.attributes.created_at }}</td>
+                        <td>
+                            <span v-if="sale.relationships.comprobante">{{ sale.relationships.comprobante.attributes.tipo }} {{ sale.relationships.comprobante.attributes.punto_venta | punto_venta_string }} - {{ sale.relationships.comprobante.attributes.numero | numero_factura_string }}</span>
+                        </td>
                         <td class="text-right">{{ globalHelperFixeDecimalMoney(sale.attributes.total) | money_string }}</td>
                         <v-btn
                             icon
@@ -131,7 +139,7 @@
                 ></v-pagination>
             </v-col>
         </v-row>
-        
+        {{ sales }}
     </div>
 </template>
 

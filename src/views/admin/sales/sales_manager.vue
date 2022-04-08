@@ -76,6 +76,7 @@ export default {
             this.set_loading(true)
             await this.search_sale(sale_id)
                 .then((resp) => {
+                    //console.log(resp.data.data)
                     this.set_sale(resp.data.data)
                     this.show_view = 'sale'
                     

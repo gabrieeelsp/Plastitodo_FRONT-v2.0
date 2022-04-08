@@ -56,7 +56,7 @@
                                 <v-btn
                                     :disabled="cantItemsSaleActive == 0"
                                     
-                                    @clik="save_sale"
+                                    @click="save_sale"
                                     color="success"
                                     text
                                 >
@@ -71,6 +71,9 @@
                 <v-row class="">
                     <v-col cols="12">
                         <MenuClientSaleActive  />
+                    </v-col>
+                    <v-col cols="12">
+                        <ModeloFactSaleActive />
                     </v-col>
                     <v-col cols="12">
                         <TotalSale />
@@ -109,6 +112,8 @@ import TotalSale from '@/components/admin/sales/sale_register/TotalSale'
 import MenuPaymentSaleActive from '../../../components/admin/sales/sale_register/MenuPaymentSaleActive.vue'
 import ShowTareasModal from '../../../components/admin/sales/sale_register/ShowTareasModal'
 
+import ModeloFactSaleActive from '../../../components/admin/sales/sale_register/ModeloFactSaleActive'
+
 
 
 export default {
@@ -128,7 +133,8 @@ export default {
         SelectProduct,
         TotalSale,
         MenuPaymentSaleActive,
-        ShowTareasModal
+        ShowTareasModal,
+        ModeloFactSaleActive
     },
     data: () => ({
         cargandoModalVisible: false,

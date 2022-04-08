@@ -117,7 +117,7 @@
             @cancelar_debitnote="cancelar_debitnote"
         />
 
-
+    {{ sale }}
     </div>
 </template>
 

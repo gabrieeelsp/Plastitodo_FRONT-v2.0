@@ -1,5 +1,5 @@
 <template>
-    <div >
+    <div v-if="!is_loading">
         <v-navigation-drawer v-model="drawer" app>
             <Menu />            
         </v-navigation-drawer>
@@ -30,13 +30,24 @@
         
         
     </div>
+    <div v-else>
+        cargando ...
+    </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 import Menu from '../../components/admin/utils/Menu.vue'
 import MenuUser from '../../components/admin/utils/MenuUser.vue'
 import MenuSucursal from '../../components/admin/utils/MenuSucursal.vue'
 export default {
+    computed: {
+        ...mapGetters({
+            is_loading: 'app/is_loading'
+        })
+        
+    },
     components: {
         Menu,
         MenuUser,
